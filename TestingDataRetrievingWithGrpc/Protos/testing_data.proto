@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "TestingDataService";
+
+package testing_data;
+
+service TestingDataRetriever {
+	rpc GetTestingData (ClientCredentials) returns (TestingData);
+}
+
+//Receiver's position
+enum ClientType {
+	CLIENTTYPE_UNKNOWN = 0;
+	CLIENTTYPE_JUNIOR_RESEARCHER = 1;
+	CLIENTTYPE_RESEARCHER = 2;
+	CLIENTTYPE_SENIOR_RESEARCHER = 3;
+}
+
+//Requesting message
+message ClientCredentials{
+	string name = 1;
+	ClientType client_type = 2;
+}
+
+//Type of signal
+enum SignalType {
+	SIGNALTYPE_UNKNOWN = 0;
+	SIGNALTYPE_OSS = 1;
+	SIGNALTYPE_MUF = 2;
+	SIGNALTYPE_AWS = 3;
+	SIGNALTYPE_URF = 4;
+	SIGNALTYPE_MURF = 5;
+}
+
+//Testing Data message for answer
+message TestingData{
+	uint32 frequency = 1;
+	uint32 lambda = 2;
+	SignalType signal_type = 3;
+	string data = 4;
+	string comment = 5;
+}
