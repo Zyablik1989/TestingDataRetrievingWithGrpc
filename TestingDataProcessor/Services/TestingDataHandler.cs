@@ -17,6 +17,7 @@ namespace TestingDataProcessor.Services
         private TestingData ProcessTestingData(ClientType clientType)
         {
             var testingData = new TestingData();
+            var levelOfDataDetalisation = 0;
             switch (clientType)
             {
                 default:
@@ -24,12 +25,15 @@ namespace TestingDataProcessor.Services
                     break;
                 case ClientType.JuniorResearcher:
                     testingData.SignalType = SignalType.Oss;
+                    levelOfDataDetalisation = 4;
                     break;
                 case ClientType.Researcher:
                     testingData.SignalType = SignalType.Aws;
+                    levelOfDataDetalisation = 8;
                     break;
                 case ClientType.SeniorResearcher:
                     testingData.SignalType = SignalType.Murf;
+                    levelOfDataDetalisation = 12;
                     break;
             }
 
@@ -37,7 +41,7 @@ namespace TestingDataProcessor.Services
             {
                 testingData.Lambda = (uint)new Random().Next(0,int.MaxValue);
                 testingData.Frequency = (uint)new Random().Next(0, int.MaxValue);
-                testingData.Data = new string(Enumerable.Repeat("0123456789", 4)
+                testingData.Data = new string(Enumerable.Repeat("0123456789", levelOfDataDetalisation)
                     .Select(s => s[new Random().Next(s.Length)]).ToArray());
             }
 

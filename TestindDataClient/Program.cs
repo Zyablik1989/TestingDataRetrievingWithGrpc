@@ -26,6 +26,7 @@ namespace TestindDataClient
                 Name = a,
                 ClientType = (ClientType)position
             });
+
             Console.WriteLine(
                 new StringBuilder()
                     .Append($"Lambda - {data.Lambda}{Environment.NewLine}")
@@ -33,7 +34,6 @@ namespace TestindDataClient
                     .Append($"Data - {data.Data}{Environment.NewLine}")
                     .Append($"Comment - {data.Comment}{Environment.NewLine}")
                     .ToString());
-            //Console.WriteLine("Message from Chat: " + reply.Message);
             Console.ReadKey();
         }
     }
