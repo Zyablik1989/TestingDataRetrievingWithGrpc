@@ -24,5 +24,20 @@ namespace TestingDataWPF
         {
             InitializeComponent();
         }
+
+        private void RetrieveData(object sender, RoutedEventArgs e)
+        {
+            //Tightly connected test of basic logic
+            var testingdata = DataRetriever.CollectTestingData(tbName.Text, cbPosition.SelectedIndex);
+
+            //Drawing plot
+            plotView.Model = PlotModelDefine.GridLinesHorizontal(testingdata.Data);
+
+            //Filling fields
+            tbLambda.Text = testingdata.Lambda.ToString();
+            tbFrequency.Text = testingdata.Frequency.ToString();
+            tbSignalType.Text = testingdata.SignalType.ToString();
+            tbComment.Text = testingdata.Comment;
+        }
     }
 }
