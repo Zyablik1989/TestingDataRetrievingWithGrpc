@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-
-namespace TestingDataWPF
+namespace TestingDataWPF.Models
 {
     public class PlotModelDefine
     {
@@ -15,6 +11,7 @@ namespace TestingDataWPF
         {
             var plotModel = new PlotModel();
 
+            //Drawing horizontal axis
             var xAxis = new LinearAxis();
             xAxis.Position = AxisPosition.Left;
             xAxis.MajorGridlineStyle = LineStyle.Solid;
@@ -23,6 +20,7 @@ namespace TestingDataWPF
             xAxis.TicklineColor = OxyColors.Black;
             xAxis.TextColor = OxyColors.Black;
 
+            //Drawing vertical axis
             var yAxis = new LinearAxis();
             yAxis.Position = AxisPosition.Bottom;
             yAxis.MajorGridlineStyle = LineStyle.Solid;
@@ -34,7 +32,7 @@ namespace TestingDataWPF
             plotModel.Axes.Add(xAxis);
             plotModel.Axes.Add(yAxis);
 
-
+            //Drawing function
             FunctionSeries fs = new FunctionSeries();
 
             //String with unpredictable length of random char-numbers converting to numbers.

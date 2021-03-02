@@ -29,11 +29,11 @@ namespace TestingDataProcessor.Services
                     break;
                 case ClientType.Researcher:
                     testingData.SignalType = SignalType.Aws;
-                    levelOfDataDetalisation = 8;
+                    levelOfDataDetalisation = 80;
                     break;
                 case ClientType.SeniorResearcher:
                     testingData.SignalType = SignalType.Murf;
-                    levelOfDataDetalisation = 12;
+                    levelOfDataDetalisation = 500;
                     break;
             }
 

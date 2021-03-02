@@ -3,72 +3,78 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TestingDataWPF.Views"
-        xmlns:oxyPlot="using:OxyPlot.WPF"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="{Binding Title}" MinHeight="600" MinWidth="800" Height="600" Width="800">
+        Title="{Binding Title}" x:Name="TestingDataWindow" MinHeight="600" MinWidth="800" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="9*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="5" ShowGridLines="True">
 
-            <StackPanel Orientation="Horizontal" Width="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <TextBox x:Name="tbName" Text="Name" Width="120" Margin="5,0,5,0"/>
-                <ComboBox x:Name="cbPosition" Width="Auto" HorizontalAlignment="Right" SelectedIndex="0" Margin="5,0,5,0">
+            <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBox x:Name="tbName" Text="{Binding Name, Mode=TwoWay}" Width="120" Margin="5,0,0,0" />
+                <ComboBox x:Name="cbPosition" SelectedIndex="{Binding Position, Mode=TwoWay}" Width="Auto"
+                          HorizontalAlignment="Right" Margin="5,0,0,0">
                     <TextBlock>Junior Researcher</TextBlock>
                     <TextBlock>Researcher</TextBlock>
                     <TextBlock>Senior Researcher</TextBlock>
                 </ComboBox>
-                <Button Content="Retrieve" HorizontalAlignment="Right" Margin="5,0,5,0" VerticalAlignment="Center" />
+                <Button Content="Retrieve"
+                        IsEnabled="{Binding NotReceiving, Mode=TwoWay}"
+                        HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="RetrieveData" />
+                <Button Content="Clear"
+                        IsEnabled="{Binding NotReceiving, Mode=TwoWay}"
+                        HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="ClearData" />
             </StackPanel>
-            
+
         </Grid>
-        <Grid Grid.Row="1"  Margin="5" ShowGridLines="True" >
-            <Grid >
+        <Grid Grid.Row="1" Margin="5" ShowGridLines="True">
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="7*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Height="Auto" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                    <StackPanel  Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Frequency" Margin="5,0,5,0"></TextBlock>
-                                <TextBlock x:Name="tbFrequency" Text="{Binding Frequency}"></TextBlock>
-                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Lambda" Margin="5,0,5,0"></TextBlock>
-                                <TextBlock x:Name="tbLambda" Text="{Binding Lambda}" Margin="5,0,5,0"></TextBlock>
-                        </StackPanel>
+                                <TextBlock Text="Frequency" Margin="5,0,5,0" />
+                                <TextBlock x:Name="tbFrequency" Text="{Binding Frequency}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Lambda" Margin="5,0,5,0" />
+                                <TextBlock x:Name="tbLambda" Text="{Binding Lambda}" Margin="5,0,5,0" />
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Signal Type" TextWrapping="WrapWithOverflow" Width="40" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                            <Viewbox StretchDirection="Both" Stretch="Fill" >
-                                <TextBlock Name="tbSignalType" Text="{Binding SignalType}" FontWeight="Bold"  TextWrapping="Wrap"></TextBlock>
+                        <DockPanel Margin="0,0,5,0">
+                            <TextBlock Text="Signal Type" TextWrapping="WrapWithOverflow" Width="40"
+                                       TextAlignment="Center" VerticalAlignment="Center" />
+                            <Viewbox StretchDirection="Both" Stretch="Uniform">
+                                <TextBlock Name="tbSignalType" Text="{Binding SignalType}" FontWeight="Bold"
+                                           TextWrapping="Wrap" />
                             </Viewbox>
-                        </StackPanel>
+                        </DockPanel>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Comment" Width="Auto" Margin="5,0,5,0"></TextBlock>
-                        <TextBlock x:Name="tbComment" Text="{Binding Comment}" TextWrapping="NoWrap"  Margin="5,0,5,0"></TextBlock>
-                </StackPanel>
+                    <DockPanel>
+                        <TextBlock Text="Comment" Width="Auto" Margin="5,0,0,0" />
+                        <TextBlock Width="Auto" FontSize="9" x:Name="tbComment" Text="{Binding Comment}"
+                                   TextWrapping="WrapWithOverflow" Margin="5,0,0,0" />
+                    </DockPanel>
                 </Grid>
             </Grid>
         </Grid>
-
-        <Grid Grid.Row="2"  Margin="5" ShowGridLines="True">
+        <Grid Grid.Row="2" Margin="5" ShowGridLines="True">
             <oxy:PlotView x:Name="plotView" Model="{Binding PlotModel}" />
         </Grid>
     </Grid>

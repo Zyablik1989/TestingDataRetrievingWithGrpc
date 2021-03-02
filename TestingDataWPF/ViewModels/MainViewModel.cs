@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using OxyPlot;
+using TestingDataWPF.Models;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace TestingDataWPF.ViewModels
 {
@@ -35,18 +39,44 @@ namespace TestingDataWPF.ViewModels
         }
 
         #endregion
+        
 
-        public ICommand RetrieveDataCommand { get; set; }
-
+        #region UI fields
         //Title of window
-        string title = "Testing data retriever";
+        string title = "Testing data receiver";
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
 
+        //Name of user
+        string name = "Name";
+        public string Name
+        {
+            get { return name; }
+            set { SetProperty(ref name, value); }
+        }
+
+        //Position of user
+        int position = 0;
+        public int Position
+        {
+            get { return position; }
+            set { SetProperty(ref position, value); }
+        }
+        #endregion
+
+        //Is view busy right now
+        bool notReceiving = true;
+        public bool NotReceiving
+        {
+            get { return notReceiving; }
+            set { SetProperty(ref notReceiving, value); }
+        }
+
         #region Tesing data fields
+
         //Lambda
         string lambda = string.Empty;
         public string Lambda
@@ -63,7 +93,7 @@ namespace TestingDataWPF.ViewModels
             set { SetProperty(ref frequency, value); }
         }
 
-        //Frequency
+        //Signal Type
         string signalType = string.Empty;
         public string SignalType
         {
@@ -71,6 +101,7 @@ namespace TestingDataWPF.ViewModels
             set { SetProperty(ref signalType, value); }
         }
 
+        //Plot with calculated graph
         PlotModel plotModel = new PlotModel();
         public PlotModel PlotModel
         {
@@ -78,7 +109,7 @@ namespace TestingDataWPF.ViewModels
             set { SetProperty(ref plotModel, value); }
         }
 
-        //Frequency
+        //Comment
         string comment = string.Empty;
         public string Comment
         {
@@ -86,5 +117,61 @@ namespace TestingDataWPF.ViewModels
             set { SetProperty(ref comment, value); }
         }
         #endregion
+
+        
+        //Retrieve data from server and fill all fields
+        public async Task ReceiveData()
+        {
+            NotReceiving = false;
+
+            try
+            {
+                //Firstly trying to receive data. Errors will be thrown further
+                var data = await DataReceiver.CollectTestingData(Name,Position);
+
+                if (string.IsNullOrEmpty(data.Data))
+                {
+                    Comment = "No data received";
+                    return;
+                }
+
+                //Trying to draw a graph for plot from data numbers
+                PlotModel = PlotModelDefine.GridLinesHorizontal(data.Data);
+
+                Lambda = data.Lambda.ToString();
+                Frequency = data.Frequency.ToString();
+                SignalType = data.SignalType.ToString();
+                Comment = data.Comment;
+            }
+            catch (Exception ex)
+            {
+                if (ex.Data.Contains("UserMessage"))
+                {
+                    Comment = ex.Data["UserMessage"].ToString();
+                }
+                else
+                {
+                    Comment = ex.Message;
+                }
+            }
+            finally
+            {
+                NotReceiving = true;
+            }
+        }
+
+        //clean all fields
+        public void ClearData()
+        {
+            NotReceiving = false;
+
+            PlotModel = new PlotModel();
+            Lambda = string.Empty;
+            Frequency = string.Empty;
+            SignalType = string.Empty;
+            Comment = string.Empty;
+
+            NotReceiving = true;
+        }
     }
 }
