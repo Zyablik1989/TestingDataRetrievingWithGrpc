@@ -19,12 +19,18 @@ namespace TestingDataWPF.Models
         public static async Task ConnectToServer(string name, int position)
         {
             TestingData data = null;
+
+            //recollecting connection data from settings
+            var host = Properties.Settings.Default.TestingDataHost;
+            var port = Properties.Settings.Default.TestingDataPort;
+
             try
             {
+                //Turning TLS authorization off
                 AppContext.SetSwitch(
                     "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
-                using var channel = GrpcChannel.ForAddress("http://localhost:5000");
+                using var channel = GrpcChannel.ForAddress($"{host}:{port}");
                 var client = new TestingDataRetriever.TestingDataRetrieverClient(channel);
 
                 //Async connection
@@ -37,7 +43,7 @@ namespace TestingDataWPF.Models
 
                 testingData.Comment =
                     new StringBuilder()
-                        .Append("Testing Data presented for ")
+                        .Append("Testing Data was presented for ")
                         .Append(name)
                         .Append(" at ")
                         .Append(DateTime.Now.ToString())
@@ -48,7 +54,7 @@ namespace TestingDataWPF.Models
             catch (RpcException ex)
             {
                 testingData = new TestingData() { Comment = ex.Message };
-                ex.Data.Add("UserMessage", "An error occurred when testing data was requested. RPC:" + ((StatusCode)(ex.StatusCode)));
+                ex.Data.Add("UserMessage", $"An error occurred when testing data was requested from {host}:{port}. RPC:" + ((StatusCode)(ex.StatusCode)));
                 throw ex;
             }
             catch (Exception e)
