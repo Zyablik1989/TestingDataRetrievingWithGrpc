@@ -21,7 +21,7 @@ namespace TestingDataProcessor.Services
             switch (clientType)
             {
                 default:
-                    testingData.Comment = "ОШИБКА ДОЛЖНОСТИ";
+                    testingData.Comment = "Position Error";
                     break;
                 case ClientType.JuniorResearcher:
                     testingData.SignalType = SignalType.Oss;
