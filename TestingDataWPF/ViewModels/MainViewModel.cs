@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,7 +18,6 @@ namespace TestingDataWPF.ViewModels
         #region INotify... realisation
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var changed = PropertyChanged;
@@ -40,34 +40,28 @@ namespace TestingDataWPF.ViewModels
 
         #endregion
 
+        //Available positions of user
+        public ObservableCollection<string> Positions { get; set; } = new ObservableCollection<string>()
+        {
+            ResourceHandler.GetResource("JuniorResearcher"),
+            ResourceHandler.GetResource("Researcher"),
+            ResourceHandler.GetResource("SeniorResearcher")
+        };
+
         #region UI fields
 
-        string title = ResourceHandler.GetResource("TestingdatareceiverString");
+        string title = ResourceHandler.GetResource("Title");
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
 
-        string juniorResearcher = ResourceHandler.GetResource("JuniorResearcher");
-        public string JuniorResearcher
+        string nameString = ResourceHandler.GetResource("NameString");
+        public string NameString
         {
-            get { return juniorResearcher; }
-            set { SetProperty(ref juniorResearcher, value); }
-        }
-
-        string researcher = ResourceHandler.GetResource("Researcher");
-        public string Researcher
-        {
-            get { return researcher; }
-            set { SetProperty(ref researcher, value); }
-        }
-
-        string seniorResearcher = ResourceHandler.GetResource("SeniorResearcher");
-        public string SeniorResearcher
-        {
-            get { return seniorResearcher; }
-            set { SetProperty(ref seniorResearcher, value); }
+            get { return nameString; }
+            set { SetProperty(ref nameString, value); }
         }
 
         string retrieve = ResourceHandler.GetResource("Retrieve");
@@ -123,7 +117,7 @@ namespace TestingDataWPF.ViewModels
         #region InputFields
 
         //Name of user
-        string name = ResourceHandler.GetResource("NameString");
+        string name = string.Empty;
         public string Name
         {
             get { return name; }
@@ -263,6 +257,7 @@ namespace TestingDataWPF.ViewModels
             Language = Properties.Settings.Default.Language;
         }
 
+        //Set current culture and update UI fields
         public void SetLanguage()
         {
             Properties.Settings.Default.Language = Language;
@@ -271,18 +266,14 @@ namespace TestingDataWPF.ViewModels
             {
                 default:
                     Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-                    
                     break;
                 case 1:
                     Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ru-RU");
                     break;
             }
 
-            Title = ResourceHandler.GetResource("Testingdatareceiver");
-            Name = ResourceHandler.GetResource("NameString");
-            JuniorResearcher = ResourceHandler.GetResource("JuniorResearcher");
-            Researcher = ResourceHandler.GetResource("Researcher");
-            SeniorResearcher = ResourceHandler.GetResource("SeniorResearcher");
+            Title = ResourceHandler.GetResource("Title");
+            NameString = ResourceHandler.GetResource("NameString");
             Retrieve = ResourceHandler.GetResource("Retrieve");
             Clear = ResourceHandler.GetResource("Clear");
             LanguageLabel = ResourceHandler.GetResource("LanguageLabel");
@@ -290,6 +281,11 @@ namespace TestingDataWPF.ViewModels
             LambdaLabel = ResourceHandler.GetResource("LambdaLabel");
             SignalTypeLabel = ResourceHandler.GetResource("SignalTypeLabel");
             CommentLabel = ResourceHandler.GetResource("CommentLabel");
+
+            Positions.Clear();
+            Positions.Add(ResourceHandler.GetResource("JuniorResearcher"));
+            Positions.Add(ResourceHandler.GetResource("Researcher"));
+            Positions.Add(ResourceHandler.GetResource("SeniorResearcher"));
         }
     }
 }

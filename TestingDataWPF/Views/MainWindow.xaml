@@ -4,88 +4,185 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="{Binding Title}" x:Name="TestingDataWindow" MinHeight="600" MinWidth="800" Height="600" Width="800">
+        Title="{Binding Title}" MinHeight="600" MinWidth="800" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="9*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5" ShowGridLines="True">
+        <Rectangle d:IsLocked="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.3">
+                    <RadialGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="2" ScaleY="2" />
+                            <SkewTransform CenterY="0.5" CenterX="0.5" />
+                            <RotateTransform CenterY="0.5" CenterX="0.5" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </RadialGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FF0A406E" />
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#FF110D44" Offset="0.5" />
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid>
 
-            <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <TextBox x:Name="tbName" Text="{Binding Name}" Width="120" Margin="5,0,0,0" />
-                <ComboBox x:Name="cbPosition" SelectedIndex="{Binding Position}" Width="Auto"
-                          HorizontalAlignment="Right" Margin="5,0,0,0">
-                    <TextBlock Text="{Binding JuniorResearcher}"/>
-                    <TextBlock Text="{Binding Researcher}"/>
-                    <TextBlock Text="{Binding SeniorResearcher}"/>
-                </ComboBox>
-                <Button Content="{Binding Retrieve}"
-                        IsEnabled="{Binding NotReceiving}"
-                        HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="RetrieveData" />
-                <Button Content="{Binding Clear}"
-                        IsEnabled="{Binding NotReceiving}"
-                        HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="ClearData" />
-                <TextBlock Text="{Binding LanguageLabel}" Margin="10,0,0,0"/>
-                <ComboBox SelectedIndex="{Binding Language}" Margin="5,0,0,0">
-                    <TextBlock>English</TextBlock>
-                    <TextBlock>Русский</TextBlock>
-                </ComboBox>
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2*" MinHeight="150" MaxHeight="250" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="9*" MinHeight="200" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" MaxHeight="70" VerticalAlignment="Top" Margin="5" ShowGridLines="True">
+                <Border Background="DarkGray" BorderBrush="DarkGray" CornerRadius="6"
 
-        </Grid>
-        <Grid Grid.Row="1" Margin="5" ShowGridLines="True">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7*" />
-                    <RowDefinition Height="3*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Height="Auto" VerticalAlignment="Stretch">
+                        BorderThickness="0" ClipToBounds="True" Grid.ColumnSpan="1" Margin="0,0,0,0">
+                    <Border Background="Transparent" BorderBrush="Black"
+
+                            BorderThickness="5,12,0,0" Margin="-5,-11,0,0">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="3" BlurRadius="15" />
+                        </Border.Effect>
+                    </Border>
+                </Border>
+                <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="7*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding FrequencyLabel}" Margin="5,0,5,0" />
-                                <TextBlock x:Name="tbFrequency" Text="{Binding Frequency}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding LambdaLabel}" Margin="5,0,5,0" />
-                                <TextBlock x:Name="tbLambda" Text="{Binding Lambda}" Margin="5,0,5,0" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Grid.Column="1">
-                        <Grid  Margin="0,0,5,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"></RowDefinition>
-                                <RowDefinition Height="4*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding SignalTypeLabel}" TextWrapping="Wrap"
-                                       TextAlignment="Center" VerticalAlignment="Center"/>
-                            
-                            <Viewbox Grid.Row="1" StretchDirection="Both" Stretch="Uniform">
-                                <TextBlock Name="tbSignalType" Text="{Binding SignalType}" FontWeight="Bold"
-                                           TextWrapping="Wrap"/>
-                            </Viewbox>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <TextBox x:Name="tbName" MinWidth="80" materialDesign:HintAssist.Hint="{Binding NameString}"
+                                 Text="{Binding Name}" Margin="5,0,0,0"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <ComboBox x:Name="cbPosition" MinWidth="150" SelectedIndex="{Binding Position}"
+                                  HorizontalAlignment="Right" Margin="5,0,0,0" ItemsSource="{Binding Positions}"
+                                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                        <Button Content="{Binding Retrieve}"
+                                Width="Auto"
+                                IsEnabled="{Binding NotReceiving}"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center"
+                                Click="RetrieveData" />
+                        <Button Content="{Binding Clear}"
+                                Width="Auto"
+                                IsEnabled="{Binding NotReceiving}"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center"
+                                Click="ClearData" />
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="{Binding LanguageLabel}"
+                              Margin="10,0,0,0" SelectedIndex="{Binding Language}"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <TextBlock>English</TextBlock>
+                        <TextBlock>Русский</TextBlock>
+                    </ComboBox>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Row="1" Margin="5" ShowGridLines="True">
+
+                <Grid>
+                    <Border Background="White" BorderBrush="DarkGray" CornerRadius="6"
+
+                            BorderThickness="0" ClipToBounds="True" Grid.ColumnSpan="1" Margin="0,0,0,0">
+                        <Border Background="Transparent" BorderBrush="Black"
+
+                                BorderThickness="5,12,0,0" Margin="-5,-11,0,0">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1.5" BlurRadius="9" />
+                            </Border.Effect>
+                        </Border>
+                    </Border>
+                    <Grid Margin="7">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="7*" />
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Height="Auto" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Text="{Binding FrequencyLabel}" Margin="5,0,5,0" />
+                                        <TextBlock x:Name="tbFrequency" Text="{Binding Frequency}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding LambdaLabel}" Margin="5,0,5,0" />
+                                        <TextBlock x:Name="tbLambda" Text="{Binding Lambda}" Margin="5,0,5,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid Margin="0,0,5,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="4*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding SignalTypeLabel}" TextWrapping="Wrap"
+                                               TextAlignment="Center" VerticalAlignment="Center" />
+
+                                    <Viewbox Grid.Row="1" StretchDirection="Both" Stretch="Uniform">
+                                        <TextBlock Name="tbSignalType" Text="{Binding SignalType}" FontWeight="Bold"
+                                                   TextWrapping="Wrap" />
+                                    </Viewbox>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <DockPanel>
+                                <TextBlock Text="{Binding CommentLabel}" Width="Auto" Margin="5,0,0,0" />
+                                <TextBlock Width="Auto" x:Name="tbComment" Text="{Binding Comment}"
+                                           TextWrapping="WrapWithOverflow" Margin="5,0,0,0" />
+                            </DockPanel>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <DockPanel>
-                        <TextBlock Text="{Binding CommentLabel}" Width="Auto" Margin="5,0,0,0"/>
-                        <TextBlock Width="Auto" FontSize="9" x:Name="tbComment" Text="{Binding Comment}"
-                                   TextWrapping="WrapWithOverflow" Margin="5,0,0,0"/>
-                    </DockPanel>
+            </Grid>
+            <Rectangle Grid.Row="2" d:IsLocked="True" Margin="1,0,1,0">
+
+                <Rectangle.Fill>
+                    <RadialGradientBrush GradientOrigin="0.5,0.5">
+                        <RadialGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="2" ScaleY="2" />
+                                <SkewTransform CenterY="0.5" CenterX="0.5" />
+                                <RotateTransform CenterY="0.5" CenterX="0.5" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </RadialGradientBrush.RelativeTransform>
+                        <GradientStop Color="White" Offset="0" />
+                        <GradientStop Color="Transparent" Offset="0.54" />
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+
+            </Rectangle>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Row="2">---- ↑ ↓  ----</TextBlock>
+            <GridSplitter Grid.Row="2" Height="10" ShowsPreview="False" HorizontalAlignment="Stretch"
+                          Background="Transparent" Margin="0,3" />
+
+            <Grid Grid.Row="3" Margin="5" ShowGridLines="True">
+                <Grid>
+                    <Border Background="White" BorderBrush="DarkGray" CornerRadius="6"
+
+                            BorderThickness="0" ClipToBounds="True" Grid.ColumnSpan="1" Margin="0,0,0,0">
+                        <Border Background="Transparent" BorderBrush="Black"
+
+                                BorderThickness="5,12,0,0" Margin="-5,-11,0,0">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1.5" BlurRadius="9" />
+                            </Border.Effect>
+                        </Border>
+                    </Border>
+                    <oxy:PlotView Margin="3" x:Name="plotView" Model="{Binding PlotModel}" />
                 </Grid>
             </Grid>
-        </Grid>
-        <Grid Grid.Row="2" Margin="5" ShowGridLines="True">
-            <oxy:PlotView x:Name="plotView" Model="{Binding PlotModel}" />
         </Grid>
     </Grid>
 </Window>

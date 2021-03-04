@@ -194,5 +194,14 @@ namespace TestingDataWPF.Properties {
                 return ResourceManager.GetString("TestingDatawaspresentedfor", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Testing data receiver.
+        /// </summary>
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
     }
 }
