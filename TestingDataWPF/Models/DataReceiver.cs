@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Net.Client;
 using TestingDataService;
+using TestingDataWPF.Localization;
 
 namespace TestingDataWPF.Models
 {
@@ -43,9 +44,9 @@ namespace TestingDataWPF.Models
 
                 testingData.Comment =
                     new StringBuilder()
-                        .Append("Testing Data was presented for ")
+                        .Append(ResourceHandler.GetResource("TestingDatawaspresentedfor"))
                         .Append(name)
-                        .Append(" at ")
+                        .Append(ResourceHandler.GetResource("at"))
                         .Append(DateTime.Now.ToString())
                         .ToString();
 
@@ -54,7 +55,7 @@ namespace TestingDataWPF.Models
             catch (RpcException ex)
             {
                 testingData = new TestingData() { Comment = ex.Message };
-                ex.Data.Add("UserMessage", $"An error occurred when testing data was requested from {host}:{port}. RPC:" + ((StatusCode)(ex.StatusCode)));
+                ex.Data.Add("UserMessage", $"{ResourceHandler.GetResource("Anerroroccurredwhen")} {host}:{port}. RPC:" + ((StatusCode)(ex.StatusCode)));
                 throw ex;
             }
             catch (Exception e)

@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using OxyPlot;
 using TestingDataWPF.Models;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Threading;
+using TestingDataWPF.Localization;
 
 namespace TestingDataWPF.ViewModels
 {
@@ -38,20 +38,90 @@ namespace TestingDataWPF.ViewModels
             return true;
         }
 
-        #endregion
-        
-
         #region UI fields
-        //Title of window
-        string title = "Testing data receiver";
+
+        string title = ResourceHandler.GetResource("TestingdatareceiverString");
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
         }
 
+        string juniorResearcher = ResourceHandler.GetResource("JuniorResearcher");
+        public string JuniorResearcher
+        {
+            get { return juniorResearcher; }
+            set { SetProperty(ref juniorResearcher, value); }
+        }
+
+        string researcher = ResourceHandler.GetResource("Researcher");
+        public string Researcher
+        {
+            get { return researcher; }
+            set { SetProperty(ref researcher, value); }
+        }
+
+        string seniorResearcher = ResourceHandler.GetResource("SeniorResearcher");
+        public string SeniorResearcher
+        {
+            get { return seniorResearcher; }
+            set { SetProperty(ref seniorResearcher, value); }
+        }
+
+        string retrieve = ResourceHandler.GetResource("Retrieve");
+        public string Retrieve
+        {
+            get { return retrieve; }
+            set { SetProperty(ref retrieve, value); }
+        }
+
+        string clear = ResourceHandler.GetResource("Clear");
+        public string Clear
+        {
+            get { return clear; }
+            set { SetProperty(ref clear, value); }
+        }
+
+        string languageLabel = ResourceHandler.GetResource("LanguageLabel");
+        public string LanguageLabel
+        {
+            get { return languageLabel; }
+            set { SetProperty(ref languageLabel, value); }
+        }
+
+        string frequencyLabel = ResourceHandler.GetResource("FrequencyLabel");
+        public string FrequencyLabel
+        {
+            get { return frequencyLabel; }
+            set { SetProperty(ref frequencyLabel, value); }
+        }
+
+        string lambdaLabel = ResourceHandler.GetResource("LambdaLabel");
+        public string LambdaLabel
+        {
+            get { return lambdaLabel; }
+            set { SetProperty(ref lambdaLabel, value); }
+        }
+
+        string signalTypeLabel = ResourceHandler.GetResource("SignalTypeLabel");
+        public string SignalTypeLabel
+        {
+            get { return signalTypeLabel; }
+            set { SetProperty(ref signalTypeLabel, value); }
+        }
+
+        string commentLabel = ResourceHandler.GetResource("CommentLabel");
+        public string CommentLabel
+        {
+            get { return commentLabel; }
+            set { SetProperty(ref commentLabel, value); }
+        }
+        #endregion
+
+        #region InputFields
+
         //Name of user
-        string name = "Name";
+        string name = ResourceHandler.GetResource("NameString");
         public string Name
         {
             get { return name; }
@@ -64,6 +134,18 @@ namespace TestingDataWPF.ViewModels
         {
             get { return position; }
             set { SetProperty(ref position, value); }
+        }
+
+        //Position of user
+        int language = 0;
+        public int Language
+        {
+            get { return language; }
+            set
+            {
+                SetProperty(ref language, value);
+                SetLanguage();
+            }
         }
         #endregion
 
@@ -172,6 +254,40 @@ namespace TestingDataWPF.ViewModels
             Comment = string.Empty;
 
             NotReceiving = true;
+        }
+
+        public MainViewModel()
+        {
+            Language = Properties.Settings.Default.Language;
+        }
+
+        public void SetLanguage()
+        {
+            Properties.Settings.Default.Language = Language;
+            Properties.Settings.Default.Save();
+            switch (Language)
+            {
+                default:
+                    Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+                    
+                    break;
+                case 1:
+                    Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("ru-RU");
+                    break;
+            }
+
+            Title = ResourceHandler.GetResource("Testingdatareceiver");
+            Name = ResourceHandler.GetResource("NameString");
+            JuniorResearcher = ResourceHandler.GetResource("JuniorResearcher");
+            Researcher = ResourceHandler.GetResource("Researcher");
+            SeniorResearcher = ResourceHandler.GetResource("SeniorResearcher");
+            Retrieve = ResourceHandler.GetResource("Retrieve");
+            Clear = ResourceHandler.GetResource("Clear");
+            LanguageLabel = ResourceHandler.GetResource("LanguageLabel");
+            FrequencyLabel = ResourceHandler.GetResource("FrequencyLabel");
+            LambdaLabel = ResourceHandler.GetResource("LambdaLabel");
+            SignalTypeLabel = ResourceHandler.GetResource("SignalTypeLabel");
+            CommentLabel = ResourceHandler.GetResource("CommentLabel");
         }
     }
 }

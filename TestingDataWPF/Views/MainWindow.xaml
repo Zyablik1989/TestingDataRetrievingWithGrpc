@@ -15,19 +15,24 @@
         <Grid Grid.Row="0" Margin="5" ShowGridLines="True">
 
             <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <TextBox x:Name="tbName" Text="{Binding Name, Mode=TwoWay}" Width="120" Margin="5,0,0,0" />
-                <ComboBox x:Name="cbPosition" SelectedIndex="{Binding Position, Mode=TwoWay}" Width="Auto"
+                <TextBox x:Name="tbName" Text="{Binding Name}" Width="120" Margin="5,0,0,0" />
+                <ComboBox x:Name="cbPosition" SelectedIndex="{Binding Position}" Width="Auto"
                           HorizontalAlignment="Right" Margin="5,0,0,0">
-                    <TextBlock>Junior Researcher</TextBlock>
-                    <TextBlock>Researcher</TextBlock>
-                    <TextBlock>Senior Researcher</TextBlock>
+                    <TextBlock Text="{Binding JuniorResearcher}"/>
+                    <TextBlock Text="{Binding Researcher}"/>
+                    <TextBlock Text="{Binding SeniorResearcher}"/>
                 </ComboBox>
-                <Button Content="Retrieve"
-                        IsEnabled="{Binding NotReceiving, Mode=TwoWay}"
+                <Button Content="{Binding Retrieve}"
+                        IsEnabled="{Binding NotReceiving}"
                         HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="RetrieveData" />
-                <Button Content="Clear"
-                        IsEnabled="{Binding NotReceiving, Mode=TwoWay}"
+                <Button Content="{Binding Clear}"
+                        IsEnabled="{Binding NotReceiving}"
                         HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="ClearData" />
+                <TextBlock Text="{Binding LanguageLabel}" Margin="10,0,0,0"/>
+                <ComboBox SelectedIndex="{Binding Language}" Margin="5,0,0,0">
+                    <TextBlock>English</TextBlock>
+                    <TextBlock>Русский</TextBlock>
+                </ComboBox>
             </StackPanel>
 
         </Grid>
@@ -45,31 +50,36 @@
                     <Grid Grid.Column="0">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Frequency" Margin="5,0,5,0" />
+                                <TextBlock Text="{Binding FrequencyLabel}" Margin="5,0,5,0" />
                                 <TextBlock x:Name="tbFrequency" Text="{Binding Frequency}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Lambda" Margin="5,0,5,0" />
+                                <TextBlock Text="{Binding LambdaLabel}" Margin="5,0,5,0" />
                                 <TextBlock x:Name="tbLambda" Text="{Binding Lambda}" Margin="5,0,5,0" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <DockPanel Margin="0,0,5,0">
-                            <TextBlock Text="Signal Type" TextWrapping="WrapWithOverflow" Width="40"
-                                       TextAlignment="Center" VerticalAlignment="Center" />
-                            <Viewbox StretchDirection="Both" Stretch="Uniform">
+                        <Grid  Margin="0,0,5,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"></RowDefinition>
+                                <RowDefinition Height="4*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{Binding SignalTypeLabel}" TextWrapping="Wrap"
+                                       TextAlignment="Center" VerticalAlignment="Center"/>
+                            
+                            <Viewbox Grid.Row="1" StretchDirection="Both" Stretch="Uniform">
                                 <TextBlock Name="tbSignalType" Text="{Binding SignalType}" FontWeight="Bold"
-                                           TextWrapping="Wrap" />
+                                           TextWrapping="Wrap"/>
                             </Viewbox>
-                        </DockPanel>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
                     <DockPanel>
-                        <TextBlock Text="Comment" Width="Auto" Margin="5,0,0,0" />
+                        <TextBlock Text="{Binding CommentLabel}" Width="Auto" Margin="5,0,0,0"/>
                         <TextBlock Width="Auto" FontSize="9" x:Name="tbComment" Text="{Binding Comment}"
-                                   TextWrapping="WrapWithOverflow" Margin="5,0,0,0" />
+                                   TextWrapping="WrapWithOverflow" Margin="5,0,0,0"/>
                     </DockPanel>
                 </Grid>
             </Grid>
