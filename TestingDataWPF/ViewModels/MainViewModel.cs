@@ -38,6 +38,8 @@ namespace TestingDataWPF.ViewModels
             return true;
         }
 
+        #endregion
+
         #region UI fields
 
         string title = ResourceHandler.GetResource("TestingdatareceiverString");
